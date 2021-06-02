@@ -2,11 +2,9 @@ import React, { useContext, useState } from 'react'
 import { GlobalContext } from '../components/GlobalContext'
 
 export const SaveButton: React.FC = () => {
-  const { data, savedJokes, addToDownloads, downloads, removeFromDownloads } =
+  const { savedJokes, addToDownloads, downloads, removeFromDownloads } =
     useContext(GlobalContext)
   const [indexConter, setIndexCounter] = useState(0)
-
-  console.log('ds', downloads)
 
   function getRandomJokeToDownload() {
     const download = savedJokes.find((joke, index) => index === indexConter)
@@ -31,9 +29,8 @@ export const SaveButton: React.FC = () => {
 
   function downloadJokes() {
     if (downloads.length > 0) {
-      console.log(
-        'You have downloaded',
-        downloads.map((joke) => joke)
+      alert(
+        `You have: ${downloads.length} Chuck Norris Jokes, but there is no functionality for downloading them yet.`
       )
     }
   }

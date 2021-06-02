@@ -4,8 +4,8 @@ const initialState = {
   loading: true,
   data: { value: { categories: [''], id: 0, joke: '' } },
   category: '',
-  firstName: 'Chuck',
-  lastName: 'Norris',
+  firstName: '',
+  lastName: '',
   savedJokes: [],
   downloads: [],
   getNewRandomJoke: () => {},
@@ -111,9 +111,9 @@ function fetchReducer(state: initState, action: ACTIONTYPE): initState {
 const GlobalProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(fetchReducer, initialState)
   function fetchData() {
-    const url = `https://api.icndb.com/jokes/random?firstName=${
-      state.firstName
-    }&lastName=${state.lastName}${
+    const url = `https://api.icndb.com/jokes/random?${
+      state.firstName.length > 0 ? `firstName=${state.firstName}` : ''
+    }${state.lastName.length > 0 ? `&lastName=${state.lastName}` : ''}${
       state.category.length > 1 ? `&limitTo=[${state.category}]` : ''
     }`
 

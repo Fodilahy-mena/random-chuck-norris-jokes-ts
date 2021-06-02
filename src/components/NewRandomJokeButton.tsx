@@ -2,14 +2,8 @@ import React, { useContext } from 'react'
 import { GlobalContext } from '../components/GlobalContext'
 
 const NewRandomJokeButton: React.FC = () => {
-  const {
-    data,
-    getNewRandomJoke,
-    firstName,
-    lastName,
-    saveNewRandomJoke,
-    savedJokes,
-  } = useContext(GlobalContext)
+  const { data, getNewRandomJoke, firstName, lastName, saveNewRandomJoke } =
+    useContext(GlobalContext)
 
   return (
     <button

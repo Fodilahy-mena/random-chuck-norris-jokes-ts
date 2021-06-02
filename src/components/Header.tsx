@@ -1,15 +1,18 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import styled from 'styled-components'
 import ChuckNorrisImg from '../assets/chuck-norris-photo-lg.jpg'
 import { GlobalContext } from '../components/GlobalContext'
 
 const Header = () => {
   const { loading, data } = useContext(GlobalContext)
-
   return (
     <HeaderElement>
       <Image src={ChuckNorrisImg} />
-      {loading ? <p>Loading...</p> : <Quote>{data.value.joke}</Quote>}
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <Quote dangerouslySetInnerHTML={{ __html: data.value.joke }}></Quote>
+      )}
     </HeaderElement>
   )
 }
