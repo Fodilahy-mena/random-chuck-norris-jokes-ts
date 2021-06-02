@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  createContext,
-  useEffect,
-  useReducer,
-  useState,
-} from 'react'
+import { createContext, useEffect, useReducer } from 'react'
 
 const initialState = {
   loading: true,
@@ -12,10 +6,12 @@ const initialState = {
   category: '',
   firstName: 'Chuck',
   lastName: 'Norris',
+  savedJokes: [],
   getNewRandomJoke: () => {},
   setCategory: (cat: any) => {},
   updateFirstName: (value: any) => {},
   updateLastName: (value: any) => {},
+  saveNewRandomJoke: (joke: object) => {},
 }
 
 type initState = {
@@ -24,10 +20,12 @@ type initState = {
   category: string
   firstName: string
   lastName: string
+  savedJokes: any[any]
   getNewRandomJoke: () => void
   setCategory: (cat: string) => void
   updateFirstName: (value: any) => void
   updateLastName: (value: any) => void
+  saveNewRandomJoke: (joke: object) => void
 }
 type ACTIONTYPE =
   | { type: 'fetch' }
@@ -35,6 +33,10 @@ type ACTIONTYPE =
   | { type: 'set_category'; category: string }
   | { type: 'update_first_name'; firstName: string }
   | { type: 'update_last_name'; lastName: string }
+  | {
+      type: 'save_new_random_joke'
+      newRandom: object
+    }
 
 const GlobalContext = createContext(initialState)
 
@@ -57,13 +59,6 @@ function fetchReducer(state: initState, action: ACTIONTYPE): initState {
       return {
         ...state,
         category: action.category,
-        data: {
-          ...state.data,
-          value: {
-            ...state.data?.value,
-            categories: [action.category],
-          },
-        },
       }
     case 'update_first_name':
       return {
@@ -76,6 +71,12 @@ function fetchReducer(state: initState, action: ACTIONTYPE): initState {
         lastName: action.lastName,
       }
 
+    case 'save_new_random_joke':
+      return {
+        ...state,
+        savedJokes: [...state.savedJokes, action.newRandom],
+      }
+
     default:
       return state
   }
@@ -84,7 +85,11 @@ function fetchReducer(state: initState, action: ACTIONTYPE): initState {
 const GlobalProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(fetchReducer, initialState)
   function fetchData() {
-    const url = `http://api.icndb.com/jokes/random?firstName=${state.firstName}&lastName=${state.lastName}`
+    const url = `http://api.icndb.com/jokes/random?firstName=${
+      state.firstName
+    }&lastName=${state.lastName}${
+      state.category.length > 1 ? `&limitTo=[${state.category}]` : ''
+    }`
 
     dispatch({ type: 'fetch' })
 
@@ -107,6 +112,11 @@ const GlobalProvider: React.FC = ({ children }) => {
   function updateLastName(value: string) {
     dispatch({ type: 'update_last_name', lastName: value })
   }
+
+  function saveNewRandomJoke(joke: object) {
+    dispatch({ type: 'save_new_random_joke', newRandom: joke })
+  }
+
   useEffect(() => {
     fetchData()
   }, [])
@@ -123,6 +133,8 @@ const GlobalProvider: React.FC = ({ children }) => {
         lastName: state.lastName,
         updateFirstName: (value: string) => updateFirstName(value),
         updateLastName: (value: string) => updateLastName(value),
+        savedJokes: state.savedJokes,
+        saveNewRandomJoke: (joke: object) => saveNewRandomJoke(joke),
       }}>
       {children}
     </GlobalContext.Provider>

@@ -3,14 +3,13 @@ import { GlobalContext } from '../components/GlobalContext'
 
 const MainCharacterInput: React.FC = () => {
   const { updateFirstName, updateLastName } = useContext(GlobalContext)
-  const [mainCharacter, setMainCharacter] = useState('')
-  const [first, last] = mainCharacter.split(/\s+(.*)/)
 
   function changeMainCharacter(event: ChangeEvent<HTMLInputElement>) {
-    setMainCharacter(event.target.value)
+    const [first, last] = event.target.value.split(/\s+(.*)/)
     updateFirstName(first)
-    updateLastName(last)
+    updateLastName(last !== undefined ? last : '')
   }
+
   return (
     <div>
       <input onChange={changeMainCharacter} />

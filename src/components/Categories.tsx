@@ -4,7 +4,6 @@ import { GlobalContext } from '../components/GlobalContext'
 const Categories: React.FC = () => {
   const { category, setCategory } = useContext(GlobalContext)
   const [categories, setCategories] = useState(['nerdy', 'explicit'])
-
   return (
     <div>
       <p>{category.length < 1 ? 'Categories' : category}</p>

@@ -1,10 +1,22 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { GlobalContext } from '../components/GlobalContext'
 
 const NewRandomJokeButton: React.FC = () => {
-  const { getNewRandomJoke, firstName, lastName } = useContext(GlobalContext)
+  const {
+    data,
+    getNewRandomJoke,
+    firstName,
+    lastName,
+    saveNewRandomJoke,
+    savedJokes,
+  } = useContext(GlobalContext)
+
   return (
-    <button onClick={getNewRandomJoke}>
+    <button
+      onClick={() => {
+        getNewRandomJoke()
+        saveNewRandomJoke(data)
+      }}>
       Draw a random {firstName && firstName} {lastName && lastName} joke
     </button>
   )
