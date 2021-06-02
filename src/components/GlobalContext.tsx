@@ -111,7 +111,7 @@ function fetchReducer(state: initState, action: ACTIONTYPE): initState {
 const GlobalProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(fetchReducer, initialState)
   function fetchData() {
-    const url = `http://api.icndb.com/jokes/random?firstName=${
+    const url = `https://api.icndb.com/jokes/random?firstName=${
       state.firstName
     }&lastName=${state.lastName}${
       state.category.length > 1 ? `&limitTo=[${state.category}]` : ''
@@ -153,6 +153,7 @@ const GlobalProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     fetchData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
