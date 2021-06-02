@@ -10,7 +10,7 @@ const Header = () => {
     <HeaderElement>
       <Image src={firstName.length < 1 ? ChuckNorrisImg : RandomUserPhoto} />
       {loading ? (
-        <p>Loading...</p>
+        <Quote>Loading...</Quote>
       ) : (
         <Quote dangerouslySetInnerHTML={{ __html: data.value.joke }}></Quote>
       )}
@@ -29,4 +29,6 @@ const HeaderElement = styled('header')`
 const Image = styled('img')`
   max-width: auto;
 `
-const Quote = styled('p')``
+const Quote = styled('p')`
+  font-size: 18px;
+`
