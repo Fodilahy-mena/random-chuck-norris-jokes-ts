@@ -1,13 +1,14 @@
 import { useContext } from 'react'
 import styled from 'styled-components'
 import ChuckNorrisImg from '../assets/chuck-norris-photo-lg.jpg'
+import RandomUserPhoto from '../assets/random-user-photo.jpg'
 import { GlobalContext } from '../components/GlobalContext'
 
 const Header = () => {
-  const { loading, data } = useContext(GlobalContext)
+  const { loading, data, firstName } = useContext(GlobalContext)
   return (
     <HeaderElement>
-      <Image src={ChuckNorrisImg} />
+      <Image src={firstName.length < 1 ? ChuckNorrisImg : RandomUserPhoto} />
       {loading ? (
         <p>Loading...</p>
       ) : (

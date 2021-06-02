@@ -5,9 +5,11 @@ import { GlobalProvider } from './components/GlobalContext'
 
 function App() {
   return (
-    <GlobalProvider>
-      <MainScreen />
-    </GlobalProvider>
+    <div className='App'>
+      <GlobalProvider>
+        <MainScreen />
+      </GlobalProvider>
+    </div>
   )
 }
 
