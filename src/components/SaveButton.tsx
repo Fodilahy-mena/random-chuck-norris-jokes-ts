@@ -1,17 +1,50 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { GlobalContext } from '../components/GlobalContext'
 
 export const SaveButton: React.FC = () => {
-  const { data, savedJokes } = useContext(GlobalContext)
+  const { data, savedJokes, addToDownloads, downloads, removeFromDownloads } =
+    useContext(GlobalContext)
+  const [indexConter, setIndexCounter] = useState(0)
 
+  console.log('ds', downloads)
+
+  function getRandomJokeToDownload() {
+    const download = savedJokes.find((joke, index) => index === indexConter)
+    if (download) {
+      addToDownloads(download)
+    }
+    if (savedJokes.length > indexConter) {
+      setIndexCounter(indexConter + 1)
+    }
+  }
+
+  function removeRandomJokeFromDownloads() {
+    const download = savedJokes.find((joke, index) => index === indexConter)
+    if (downloads.length >= indexConter && indexConter > 0) {
+      setIndexCounter(indexConter - 1)
+    }
+
+    if (download) {
+      removeFromDownloads(download, indexConter)
+    }
+  }
+
+  function downloadJokes() {
+    if (downloads.length > 0) {
+      console.log(
+        'You have downloaded',
+        downloads.map((joke) => joke)
+      )
+    }
+  }
   return (
     <div>
       <div>
-        <button>-</button>
-        <span>{savedJokes.length}</span>
-        <button>+</button>
+        <button onClick={removeRandomJokeFromDownloads}>-</button>
+        <span>{downloads.length}</span>
+        <button onClick={getRandomJokeToDownload}>+</button>
       </div>
-      <button>Save Jokes</button>
+      <button onClick={downloadJokes}>Save Jokes</button>
     </div>
   )
 }
